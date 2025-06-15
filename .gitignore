@@ -1,3 +1,4 @@
+# TEMPLATE
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
@@ -10,6 +11,9 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
+
+# ADDED
+out/
 
 # CLion
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
