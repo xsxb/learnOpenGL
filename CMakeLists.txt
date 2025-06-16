@@ -10,9 +10,11 @@ set_target_properties(glfw3 PROPERTIES
 add_library(glad STATIC ${CMAKE_SOURCE_DIR}/lib/glad/src/glad.c)
 target_include_directories(glad PUBLIC ${CMAKE_SOURCE_DIR}/lib/glad/include)
 
-add_executable(learnOpenGL main.cpp)
+#add_executable(learnOpenGL main.cpp)
+add_executable(exercise exercises/00_triangles.cpp)
 
-target_link_libraries(learnOpenGL glad glfw3)
+#target_link_libraries(learnOpenGL glad glfw3)
+target_link_libraries(exercise glad glfw3)
 
 
 include(CTest)
