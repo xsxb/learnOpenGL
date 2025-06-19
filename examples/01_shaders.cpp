@@ -3,6 +3,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <iostream>
+
+//#include "../lib/shader.h"
+#include "shader_s.h"
 
 // VERTEX SHADER
 const char *vertexShaderSource =
@@ -65,6 +69,7 @@ int main(int, char**){
     std::cout << "Maximum number of vertex attributes supported: " << noAttributes << std::endl;
     */
 
+    /*OLD SHADER
 
     // Compiling vertex shader
     unsigned int vertexShader;
@@ -113,6 +118,13 @@ int main(int, char**){
     // Shaders not needed after linking
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+    */
+
+
+    Shader myShader("/home/xb/Programming/OpenGL/learnOpenGL/exercises/shaders/shader.vert",
+        "/home/xb/Programming/OpenGL/learnOpenGL/examples/shaders/shader.frag");
+
+    std::cout << myShader.ID << std::endl;
 
 
     // VERTICE DATA
@@ -141,13 +153,15 @@ int main(int, char**){
     glEnableVertexAttribArray(1);
 
     // can unbind after glVertexAttribPointer registered VBO
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // Draw wireframe
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // Can be set to default using:
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     
+    float yOffset = 0.2f;
+    int yOffsetLocation = glGetUniformLocation(myShader.ID, "yOffset");
 
     // Render loop
     while(!glfwWindowShouldClose(window))
@@ -160,8 +174,11 @@ int main(int, char**){
         //float timeValue = glfwGetTime();
         //float greenValue = (sin(timeValue) / 2.0f) + 0.5;
         //int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor"); //returns -1 on failure
-        glUseProgram(shaderProgram);
+        //glUseProgram(shaderProgram);
         //glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f); // works only on active shader program
+
+        myShader.use();
+        glUniform1f(yOffsetLocation, yOffset);
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
