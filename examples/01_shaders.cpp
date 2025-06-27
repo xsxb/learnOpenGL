@@ -5,8 +5,7 @@
 
 #include <iostream>
 
-//#include "../lib/shader.h"
-#include "shader_s.h"
+#include <shader_s.h>
 
 // VERTEX SHADER
 const char *vertexShaderSource =
