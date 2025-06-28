@@ -101,7 +101,6 @@ int main()
     {
         std::cout << "stbi_load: Failed to load texture" << std::endl;
     }
-    stbi_image_free(data);
 
     // texture 2
     glGenTextures(1, &texture2);
@@ -113,19 +112,21 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    unsigned char *data2 = stbi_load("/home/xb/Programming/OpenGL/learnOpenGL/textures/awesomeface.png", &width, &height, &nrChannels, 0);
-    if (data2)
+    stbi_set_flip_vertically_on_load(true);
+    data = stbi_load("/home/xb/Programming/OpenGL/learnOpenGL/textures/awesomeface.png", &width, &height, &nrChannels, 0);
+    if (data)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
     else
     {
         std::cout << "stbi_load: Failed to load texture" << std::endl;
     }
-    stbi_image_free(data2);
+    stbi_image_free(data);
 
 
+    myShader.use();
     glUniform1i(glGetUniformLocation(myShader.ID, "texture1"), 0);
     glUniform1i(glGetUniformLocation(myShader.ID, "texture2"), 1);
     /*
@@ -133,6 +134,9 @@ int main()
     std::cout << glGetUniformLocation(myShader.ID, "texture2") << std::endl;
     */
     //myShader.setInt("texture2", 1);
+
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
     while(!glfwWindowShouldClose(window))
