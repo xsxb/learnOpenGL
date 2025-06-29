@@ -14,9 +14,9 @@ add_library(stb_image STATIC ${CMAKE_SOURCE_DIR}/lib/stb_image/src/stb_image.cpp
 target_include_directories(stb_image PUBLIC ${CMAKE_SOURCE_DIR}/lib/stb_image/include)
 
 #include_directories(${CMAKE_SOURCE_DIR}/lib/stb_image)
+include_directories(${CMAKE_SOURCE_DIR}/lib/)
 
-
-add_executable(learnOpenGL exercises/02_textures.cpp)
+add_executable(learnOpenGL examples/03_transformations.cpp)
 #add_executable(exercise exercises/00_triangles.cpp)
 target_include_directories(learnOpenGL PUBLIC ${CMAKE_SOURCE_DIR}/lib/learnOpenGL)
 
