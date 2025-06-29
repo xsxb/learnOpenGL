@@ -16,7 +16,7 @@ target_include_directories(stb_image PUBLIC ${CMAKE_SOURCE_DIR}/lib/stb_image/in
 #include_directories(${CMAKE_SOURCE_DIR}/lib/stb_image)
 include_directories(${CMAKE_SOURCE_DIR}/lib/)
 
-add_executable(learnOpenGL examples/04_coordinate_systems.cpp)
+add_executable(learnOpenGL exercises/04_coordinate_systems.cpp)
 #add_executable(exercise exercises/00_triangles.cpp)
 target_include_directories(learnOpenGL PUBLIC ${CMAKE_SOURCE_DIR}/lib/learnOpenGL)
 
