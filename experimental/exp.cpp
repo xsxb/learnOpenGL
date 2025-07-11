@@ -8,6 +8,8 @@
 
 #include <shader_s.h>
 
+#include "GameObject.h"
+
 
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -220,7 +222,17 @@ int main()
 
     glm::mat4 modelCube = glm::mat4(1.0f);
     glm::mat4 modelPlane = glm::mat4(1.0f);
-    modelPlane = glm::rotate(modelPlane, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::vec3 planePositions[] = {
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, -2.0f),
+        glm::vec3(0.0f, 0.0f, -4.0f),
+    };
+
+    int newArray[] = { 1, 2, 3 };
+    Mesh planeMesh = Mesh(newArray, 3);
+    planeMesh.PrintArray();
 
     #pragma endregion
 
@@ -272,12 +284,12 @@ int main()
 
         // Plane
         glBindVertexArray(VAO[1]);
-        modelPlane = glm::mat4(1.0f);
-        modelPlane = glm::scale(modelPlane, glm::vec3(1.0f, 2.0f, 1.0f));
-        modelPlane = glm::rotate(modelPlane, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         for (int i = 0; i < 5; i++)
         {
-            modelPlane = glm::translate(modelPlane, glm::vec3(-2.0f, 0.0f, 0.0f));
+            modelPlane = glm::mat4(1.0f);
+            modelPlane = glm::scale(modelPlane, glm::vec3(2.0f, 2.0f, 2.0f));
+            modelPlane = glm::translate(modelPlane, planePositions[i]);
+            modelPlane = glm::rotate(modelPlane, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelPlane));
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
@@ -298,18 +310,29 @@ void processInput(GLFWwindow* window)
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    // Camera
-    // currently has diagonal issue
-    const float cameraSpeed = 2.5f * deltaTime;
+    // Camera / player movement
+    const float cameraSpeed = 5.0f * deltaTime;
     glm::vec3 horizontalVec = glm::normalize(glm::vec3(cameraFront.x, 0.0f, cameraFront.z));
+    glm::vec3 deltaZ = glm::vec3();
+    glm::vec3 deltaX = glm::vec3();
+    glm::vec3 deltaPos;
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPos += cameraSpeed * horizontalVec;
+        deltaZ = cameraSpeed * horizontalVec;
     if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * horizontalVec;
+        deltaZ = -cameraSpeed * horizontalVec;
     if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * glm::normalize(glm::cross(horizontalVec, cameraUp));
+        deltaX = -cameraSpeed * glm::normalize(glm::cross(horizontalVec, cameraUp));
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPos += cameraSpeed * glm::normalize(glm::cross(horizontalVec, cameraUp));
+        deltaX = cameraSpeed * glm::normalize(glm::cross(horizontalVec, cameraUp));
+    
+    deltaPos = deltaZ + deltaX;
+
+    // Handle diagonal movement
+    if (deltaZ.z != 0 && deltaX.x !=0)
+        deltaPos /= glm::length(deltaPos) / glm::length(deltaZ);
+
+    cameraPos += deltaPos;
+
 }
 
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height)

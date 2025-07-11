@@ -14,9 +14,32 @@ class Texture
 
 class Mesh
 {
+    int arrSize;
+    int* testArray;
+    //Texture texture;
+
     public:
-        Texture texture;
-        float vertices[5];
+        Mesh(){}
+        Mesh(int* arr, int size)
+        {
+            this->arrSize = size;
+            testArray = arr;
+        }
+
+        void ArrayAssign(int n)
+        {
+            testArray[0] = n;
+        }
+
+        void PrintArray()
+        {
+            for (int i = 0; i < arrSize; i++)
+            {
+                std::cout << testArray[i] << ", ";
+            }
+            std::cout << std::endl;
+        }
+
 };
 
 class MultiMesh
