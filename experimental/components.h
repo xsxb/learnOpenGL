@@ -1,44 +1,79 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
+#include <vector>
 #include <glm/vec3.hpp>
-
 
 class Texture
 {
-    public:
+    private:
         int width;
         int height;
         int nChannels;
         unsigned char* data;
+
+    public:
+        Texture() {}
+        Texture(unsigned char* data, int width, int height, int nChannels)
+        {
+            this->data = data;
+            this->width = width;
+            this->height = height;
+            this-> nChannels = nChannels;
+        }
+};
+
+class UV
+{
+    public:
+        std::vector<float> data;
+
+        UV() {}
+        UV(std::vector<float> data)
+        {
+            this->data = data;
+        }
+
 };
 
 class Mesh
 {
-    int arrSize;
-    int* testArray;
+    std::vector<float> vertexData;
+    //UV uv;
     //Texture texture;
 
     public:
         Mesh(){}
-        Mesh(int* arr, int size)
+        Mesh(std::vector<float> vertexPos)
         {
-            this->arrSize = size;
-            testArray = arr;
+            this->vertexData = vertexPos;
         }
 
-        void ArrayAssign(int n)
+        int CreateBuffer(float* bufferData, int bufferSize)
         {
-            testArray[0] = n;
+            //ApplyUV(uv);
+
+            return 0;
         }
 
         void PrintArray()
         {
-            for (int i = 0; i < arrSize; i++)
+            for (int i = 0; i < vertexData.size(); i++)
             {
-                std::cout << testArray[i] << ", ";
+                std::cout << vertexData[i] << ", ";
             }
             std::cout << std::endl;
         }
+
+    private:
+        /* not implemented 
+        int ApplyUV(UV uv, int stride = 3, int offset = 3)
+        {
+            if (uv.GetSize() != vertexDataSize)
+                throw std::length_error("UV vertex data length error");
+
+            return 0;
+        }
+        */
 
 };
 

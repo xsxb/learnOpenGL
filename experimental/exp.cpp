@@ -8,7 +8,7 @@
 
 #include <shader_s.h>
 
-#include "GameObject.h"
+#include "game_object.h"
 
 
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -66,6 +66,11 @@ int main()
         "../../../experimental/default_shader.frag");
 
     #pragma region Data
+
+    // game object test
+    std::vector<float> newArray = { 1.64f, 2.0f, 3.141f };
+    Mesh planeMesh = Mesh(newArray);
+    GameObject thing = GameObject(planeMesh);
 
     float planeVertices[] = {
         -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,     //bot left
@@ -230,9 +235,6 @@ int main()
         glm::vec3(0.0f, 0.0f, -4.0f),
     };
 
-    int newArray[] = { 1, 2, 3 };
-    Mesh planeMesh = Mesh(newArray, 3);
-    planeMesh.PrintArray();
 
     #pragma endregion
 

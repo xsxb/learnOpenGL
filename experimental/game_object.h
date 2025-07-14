@@ -24,7 +24,7 @@ class Transform
 
         glm::vec3 LocalPos()
         {
-
+            return localPos;
         }
 
         glm::vec3 GlobalPos()
@@ -33,17 +33,19 @@ class Transform
         }
 
     private:
-        glm::vec3 ToGlobal(glm::vec3 pos) {}
-        glm::vec3 ToLocal(glm::vec3 pos) {}
+        glm::vec3 ToGlobal(glm::vec3 pos) { return glm::vec3(); }
+        glm::vec3 ToLocal(glm::vec3 pos) { return glm::vec3(); }
 
 };
 
+
 class GameObject
 {
-    Mesh mesh;
-    Transform transform;
 
     public:
+        Mesh mesh;
+        Transform transform;
+
         GameObject() {}
         GameObject(Mesh m)
         {
